@@ -33,6 +33,7 @@ class BSTree {
         /*------------------------------------------------------*/
         BSNode<T>* root;
 
+
         //////////////////////// MÉTODOS /////////////////////////
 
         /*--------------- Búsqueda de elementos ----------------*/
@@ -44,7 +45,18 @@ class BSTree {
         //      encuentra en el (sub-)árbol cuya raíz es n      //
         //  ·De lo contrario lanza un runtime_error             //
         /*------------------------------------------------------*/
-        BSNode<T>* search(BSNode<T>* n, T e) const;
+        BSNode<T>* search(BSNode<T>* n, T e) const{
+
+            if (n == nullptr){ // condición base del método recursivo
+                throw runtime_error("Element not found!");
+            }
+
+            else if ( n->elem < e ){ return search(n->right, e); }
+            else if ( n->elem > e ){ return search(n->left, e); }
+
+            else{ return n; } // n->elem == e
+        }
+
 
         /*--------------- Inserción de elementos ---------------*/
 
@@ -58,18 +70,38 @@ class BSTree {
         //      modificado                                      //
         //  ·Si el elemento e ya existe, lanza un runtime_error //
         /*------------------------------------------------------*/
-        BSNode<T>* insert(BSNode<T>* n, T e);
+        BSNode<T>* insert(BSNode<T>* n, T e){
+
+            if (n == nullptr){ // condición base del método recursivo
+                throw runtime_error("Element not found!");
+            }
+
+            else if ( n->elem == e ){ throw runtime_error("Duplicated element!"); }
+            else if ( n->elem < e ){ n->right = insert(n->right, e); }
+            else{ n->left = insert(n->left, e); }
+
+            return n; 
+        }
+
 
         /*---------- Recorrido e impresión del árbol -----------*/
 
         /*------------------------------------------------------*/
         //  PRINT_INORDER( OUT, N )                             //
         //  ·Recorrido inorden o simétrico del (sub-)árbol cuya //
-        //      raíz es n pActúa como método lanzadera del método privado     //
-        //      recursivo remove(BSNode<T>* n, T e)             //ara mostrar a través de out los      //
+        //      raíz es n para mostrar a través de out los      //
         //          elementos ordenados de menor a mayor        //
         /*------------------------------------------------------*/
-        void print_inorder(ostream &out, BSNode<T> n) const;
+        void print_inorder(ostream &out, BSNode<T>* n) const{
+
+            if ( n != nullptr ){
+
+                print_inorder(out, n->left);
+                out << n->elem << " ";
+                print_inorder(out, n->right);
+            }
+        }
+
 
         /*-------------- Eliminación de elementos --------------*/
 
@@ -87,7 +119,27 @@ class BSTree {
         //      auxiliares max() y remove_max()                 //
         //  ·Si el elemento e no existe, lanza un runtime_error //
         /*------------------------------------------------------*/
-        BSNode<T>* remove(BSNode<T>* n, T e);
+        BSNode<T>* remove(BSNode<T>* n, T e){
+
+            if ( n == nullptr ){ // condición base del método recursivo
+                throw runtime_error("Element not found!");
+            }
+
+            else if ( n->elem < e ){ n->right = remove(n->right, e); }
+            else if ( n->elem > e ){ n->left = remove(n->left, e); }
+            else{
+
+                if (( n->left != nullptr ) && (n->right != nullptr)){ //2 sucesores
+
+                    n->elem = max(n->left);
+                    n->left = remove_max(n->left);
+                }
+
+                else{ n = ( n->left != nullptr ) ? n->left : n->right; } //1 o 0 sucesores
+            }
+
+            return n;
+        }
 
         /*------------------------------------------------------*/
         //  MAX( N )                                            //
@@ -95,7 +147,12 @@ class BSTree {
         //      máximo valor contenido en el (sub-)árbol cuya   //
         //      raíz es n                                       //
         /*------------------------------------------------------*/
-        T max(BSNode<T>* n) const;
+        T max(BSNode<T>* n) const{
+
+            if ( n->right != nullptr ){ return max(n->right); }
+
+            else{ return n->elem; }
+        }
 
         /*------------------------------------------------------*/
         //  REMOVE_MAX( N )                                     //
@@ -103,7 +160,22 @@ class BSTree {
         //      máximo valor contenido en el (sub-)árbol cuya   //
         //      raíz es n                                       //
         /*------------------------------------------------------*/
-        BSNode<T>* remove_max(BSNode<T>* n);
+        BSNode<T>* remove_max(BSNode<T>* n){
+
+            if ( n->right == nullptr ){ //caso base
+
+                BSNode<T>* removed = n->left;
+                delete n;
+                return removed;
+            }
+
+            else{
+
+                n->right = remove_max(n->right); 
+                return n;
+            }
+        }
+
 
         /*--------------------- Destrucción --------------------*/
 
@@ -114,25 +186,41 @@ class BSTree {
         //      BSNode<T> que conforman el (sub-)árbol cuya     //
         //      raíz es n                                       //
         /*------------------------------------------------------*/
-        void delete_cascade(BSNode<T>* n);
+        void delete_cascade(BSNode<T>* n){
+
+            if ( n != nullptr ){
+
+                delete_cascade(n->left);
+                delete_cascade(n->right);
+                delete n;
+            }
+        }
 
     public:
-.
+
         //////////////////////// MÉTODOS /////////////////////////
 
         /*----------------- Creación y tamaño ------------------*/
 
         /*------------------------------------------------------*/
         //  BSTree( VOID )                                      //
-        //  ·Puntero al nodo sucesor derecho                    //
+        //  ·Método constructor que crea un ABB vacío           //
         /*------------------------------------------------------*/
-        BSTree();
+        BSTree(){
+
+            this->nelem = 0; //no hay elementos
+            this->root = nullptr;
+        }
 
         /*------------------------------------------------------*/
         //  SIZE( VOID )                                        //
         //  ·Devuelve el número de elementos nelem del ABB      //
         /*------------------------------------------------------*/
-        int size() const;
+        int size() const{
+
+            return nelem;
+        }
+
 
         /*--------------- Búsqueda de elementos ----------------*/
 
@@ -144,14 +232,21 @@ class BSTree {
         //  ·Notar que deberá devolver el elemento contenido    //
         //      por el nodo devuelto por el método privado      //
         /*------------------------------------------------------*/
-        T search(T e) const;
+        T search(T e) const{
+
+            return ( search(root, e)->elem );
+        }
 
         /*------------------------------------------------------*/
         //  OPERATOR [] ( ELEM )                                //
         //  ·Sobrecarga del operador[] que actúa como interfaz  //
         //      al método search(T e)                           //
         /*------------------------------------------------------*/
-        T operator[](T e) const;
+        T operator[](T e) const{
+
+            return search(e);
+        }
+
 
         /*--------------- Inserción de elementos ---------------*/
 
@@ -162,7 +257,12 @@ class BSTree {
         //  ·Actúa como método lanzadera del método privado     //
         //      recursivo insert(BSNode<T>* n, T e)             //
         /*------------------------------------------------------*/
-        void insert(T e);
+        void insert(T e){
+
+            root = insert(root, e);
+            nelem++;
+        }
+
 
         /*---------- Recorrido e impresión del árbol -----------*/
 
@@ -175,7 +275,12 @@ class BSTree {
         //  ·Delega en el método privado recursivo              //
         //      print_inorder()                                 //
         /*------------------------------------------------------*/
-        friend ostream& operator<<(ostream &out, const BSTree<T> &bst);
+        friend ostream& operator<<(ostream &out, const BSTree<T> &bst){
+
+            bst.print_inorder(out, bst.root);
+            return out;
+        }
+
 
         /*-------------- Eliminación de elementos --------------*/
 
@@ -185,7 +290,12 @@ class BSTree {
         //  ·Actúa como método lanzadera del método privado     //
         //      recursivo remove(BSNode<T>* n, T e)             //
         /*------------------------------------------------------*/
-        void remove(T e);
+        void remove(T e){
+
+            root = remove(root, e);
+            nelem--;
+        }
+
 
         /*--------------------- Destrucción --------------------*/
 
@@ -195,8 +305,10 @@ class BSTree {
         //  ·Delega en el método privado recursivo              //
         //      delete_cascade()                                //
         /*------------------------------------------------------*/
-        ~BSTree();
+        ~BSTree(){
 
+            if ( root != nullptr ){ delete_cascade(root); }
+        }
 };
 
 #endif

@@ -1,0 +1,18 @@
+git remote rm origin -> elimina la conexión entre carpeta y github
+git clone https:... -> link al nuevo repositorio
+git remote -v -> muestra el repositorio con el que está conectado
+
+git status
+git add
+git commit -m '...'
+git push
+
+git config --global user.email "lfralli@upv.edu.es"
+git config --global user.name "Lourdes Francés Llimerá"
+
+Username: Louhlouh
+TOKEN -> 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
+
+Añadida declaración de la clase ...
+Añadida implementación de la clase ...; Makefile actualizado
+Añadido código de test de la clase ...; Makefile actualizado

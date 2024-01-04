@@ -6,7 +6,7 @@
 #include "Dict.h"
 #include "TableEntry.h"
 
-#include "../PRA_2324_P1/P1/Examen/ListLinked.h"  
+#include "../../PRA_2324_P1/ListLinked.h"  
 
 using namespace std;
 
@@ -136,9 +136,7 @@ class HashTable: public Dict<V> {
         /*------------------------------------------------------*/
         V operator[](string key){
 
-            int sch = search(key);
-
-            return ( (sch != -1) ? sch : throw runtime_error("Key not found!") );
+            return search(key);
         }
 
 
@@ -162,7 +160,7 @@ class HashTable: public Dict<V> {
 
             else{
 
-                throw runtime_error("Key already exists!");
+                throw runtime_error("Key '" + key + "' already exists!");
             }
         }
 
@@ -183,7 +181,7 @@ class HashTable: public Dict<V> {
 
             if( listPos == -1 ){
 
-                throw runtime_error("Key not found!");
+                throw runtime_error("Key '" + key + "' not found!");
             }
 
             else{
@@ -208,7 +206,7 @@ class HashTable: public Dict<V> {
 
             if( listPos == -1){
 
-                throw runtime_error("Key not found!");
+                throw runtime_error("Key '" + key + "' not found!");
             }
 
             else{

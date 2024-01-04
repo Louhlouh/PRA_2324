@@ -25,7 +25,7 @@ class BSNode {
         /*------------------------------------------------------*/
         T elem;
 
-        /*------------------------------------------------------*/Recuerda
+        /*------------------------------------------------------*/
         //  LEFT                                                //
         //  ·Puntero al nodo sucesor izquierdo                  //
         /*------------------------------------------------------*/
@@ -63,9 +63,7 @@ class BSNode {
         /*------------------------------------------------------*/
         friend ostream& operator<<(ostream &out, const BSNode<T> &bsn){
 
-            out << "Elemento: " << bsn.elem << endl;
-            out << "Nodo sucesor izquierdo: " << bsn.left << endl;
-            out << "Nodo sucesor derecho: " << bsn.right << endl;
+            out << bsn.elem;
 
             return out;
 
