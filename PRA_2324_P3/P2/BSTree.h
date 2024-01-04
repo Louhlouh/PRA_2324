@@ -72,9 +72,7 @@ class BSTree {
         /*------------------------------------------------------*/
         BSNode<T>* insert(BSNode<T>* n, T e){
 
-            if (n == nullptr){ // condición base del método recursivo
-                throw runtime_error("Element not found!");
-            }
+            if (n == nullptr){ return new BSNode(e); }
 
             else if ( n->elem == e ){ throw runtime_error("Duplicated element!"); }
             else if ( n->elem < e ){ n->right = insert(n->right, e); }
