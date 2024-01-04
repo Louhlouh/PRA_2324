@@ -136,9 +136,6 @@ class BSTreeDict: public Dict<V>{
 
             return tree->size();
         }
-
-
-        
 };
 
 #endif
