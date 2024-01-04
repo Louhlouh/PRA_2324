@@ -12,6 +12,7 @@ git config --global user.name "Lourdes Francés Llimerá"
 
 Username: Louhlouh
 TOKEN -> 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
+Token2 -> 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
 
 Añadida declaración de la clase ...
 Añadida implementación de la clase ...; Makefile actualizado
