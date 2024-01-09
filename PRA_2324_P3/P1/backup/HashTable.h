@@ -149,12 +149,12 @@ class HashTable: public Dict<V> {
         /*------------------------------------------------------*/
         void insert(string key, V value) override{
 
-            int pos = h(key); //busca el valor de la clave en ASCII 
+            int pos = h(key);
             TableEntry<V> aux(key, value);
 
-            if( table[pos].search(aux) == -1){ //si no existía el par, se inserta [del método listlinked]
+            if( table[pos].search(aux) == -1){
 
-                table[pos].insert(table[pos].size(), aux); //inserta el par (aux) al final de la tabla (ya que .size() devuelve el número de elementos de la tabla por lo que se coloca detrás) [del método listlinked]
+                table[pos].insert(table[pos].size(), aux);
                 n++;
             }
 
@@ -177,7 +177,7 @@ class HashTable: public Dict<V> {
 
             int pos = h(key);
             TableEntry<V> aux(key);
-            int listPos = table[pos].search(aux); //buscamos la clave en la tabla [del método listlinked]
+            int listPos = table[pos].search(aux);
 
             if( listPos == -1 ){
 
@@ -186,7 +186,7 @@ class HashTable: public Dict<V> {
 
             else{
 
-                return table[pos].get(listPos).value; //devuelve el valor asociado a la clave tras buscar su ubicacion [del método listlinked]
+                return table[pos].get(listPos).value;
             }
         }
 
@@ -212,7 +212,7 @@ class HashTable: public Dict<V> {
             else{
 
                 n--;
-                return table[pos].remove(listPos).value; //devuelve el valor del par eliminado [del método listlinked]
+                return table[pos].remove(listPos).value;
             }
         }
 

@@ -44,6 +44,7 @@ class ListLinked : public List<T> {
 	public:
 		
 		//----// INSERT //--------------------------------------+
+		//inserta el elemento e (template) en la posición pos
 		void insert(int pos, T e) override
 		{
 			if ( !(pos < 0 || pos > size()) )
@@ -78,6 +79,7 @@ class ListLinked : public List<T> {
 
 
 		//----// APPEND //--------------------------------------+
+        //inserta el elemento e al final de la lista
 		void append(T e) override
 		{
 			Node<T> *insert = new Node(e);
@@ -93,6 +95,7 @@ class ListLinked : public List<T> {
 
 
 		//----// PREPEND //-------------------------------------+
+		//inserta el elemento e al principio de la lista
 		void prepend(T e) override
 		{
 			Node<T> *insert = new Node(e, first);
@@ -104,6 +107,7 @@ class ListLinked : public List<T> {
 		
 
 		//----// REMOVE //--------------------------------------+
+		//elimina y devuelve el elemento situado en la posición pos
 		T remove(int pos) override
 		{
 			T removed;
@@ -144,6 +148,7 @@ class ListLinked : public List<T> {
 		
 		
 		//----// GET //-----------------------------------------+
+		//devuelve el elemento situado en la posición pos
 		T get(int pos) override
 		{
 			T wanted;
@@ -168,6 +173,7 @@ class ListLinked : public List<T> {
 		
 
 		//----// SEARCH //--------------------------------------+
+        //devuelve la posición en la que se encuentra la primera ocurrencia del elemento e o -1 si no se encuentra
 		int search(T e) override
 		{
   			Node<T> *aux = first;
@@ -188,6 +194,7 @@ class ListLinked : public List<T> {
 		
 
 		//----// EMPTY //---------------------------------------+
+		//indica si la lista está vacía
 		bool empty() override
 		{
 			bool answer;
@@ -200,6 +207,7 @@ class ListLinked : public List<T> {
 				
 		
 		//----// SIZE //----------------------------------------+
+        //devuelve el número de elementos de la lista
 		int size() override
 		{
 			return n;
